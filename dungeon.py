@@ -22,7 +22,7 @@ class dungeon:
             self.spawn(random.choice(self.moblist), self.dungeon_depth)
     def boss_room(self):
         boss_of_choice = random.choice(self.bosslist)
-        self.spawn(boss_of_choice, self.dungeon_depth)
+        self.spawn(boss_of_choice, self.dungeon_depth + 5)
         if self.enemy_limit < 5:
             self.enemy_limit += 1
 
