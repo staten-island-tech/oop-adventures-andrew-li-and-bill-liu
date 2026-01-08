@@ -10,6 +10,11 @@ class Mob(character):
     def attack(self):
         dmg = self.target.take_damage(cut(self.atk))
         print(dmg)
+    def take_damage(self, damage):
+        dmg = super().take_damage(damage)
+        if self.alive==False:
+            self.dungeon.enemies.remove(self)
+        return dmg
 class wxa(Mob):
     def __init__(self, level, target, dungeon):
         super().__init__(level=level, name="Whalen Xiyang Amalgamate", bhp= 4, batk=3, bdef=2, exp=4, target=target, dungeon=dungeon)
