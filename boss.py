@@ -51,7 +51,10 @@ class Whalen(Boss):
         self.bhp*1.15
 class XIyang(Boss):
     def __init__(self, level, name, bhp, batk, bdef, exp, dungeon, target, attacks, charge_rate):
-        super().__init__(level=level, name="Xiyang", bhp=600, batk=70, bdef=10, exp=125, dungeon=dungeon, target=target, attacks=[{'name':'melt', 'charge':5, 'scale':4,}, {'name':'fire', 'charge':3, 'scale':2, 'special':'burn'}], charge_rate=1)
+        super().__init__(level=level, name="Xiyang", bhp=600, batk=70, bdef=10, exp=125, dungeon=dungeon, target=target, attacks=[{'name':'melt', 'charge':5, 'scale':4, 'special':None}, {'name':'fire', 'charge':3, 'scale':2, 'special':[self.burn]}], charge_rate=1)
+    def burn(self):
+        self.target.hp-=10
+        self.bhp*1.05
 class Mecha_Whalen(Boss):
     def __init__(self, level, name, bhp, batk, bdef, exp, dungeon, target, attacks, charge_rate):
         super().__init__(level=level, name="Mecha Whalen", bhp=1000, batk=75, bdef=100, exp=200, dungeon=dungeon, target=target, attacks={'name':'Big Man', 'charge':8, 'scale':5, 'special':[self.radiation]}, charge_rate=1)
