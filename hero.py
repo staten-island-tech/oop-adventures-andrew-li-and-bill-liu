@@ -1,14 +1,13 @@
 from character import *
 from utilities import *
-class character:
-    pass 
+
 class Hero(character):
     def __init__(self, name):
         self.weaponbuff = 0
         self.batkbuff = 0
         self.mxhpbuff = 0
         self.bdefbuff = 0
-        super().__init__(level = 1, name = name, batk = (10 + self.weaponbuffkbuff) * self.batkbuff, bdef = 10 * self.bdefbuff, bhp = 40)
+        super().__init__(level = 1, name = name, batk = (10 + self.weaponbuff) * self.batkbuff, bdef = 10 * self.bdefbuff, bhp = 40)
         self.turns = 0
         self.inventory = {
             'weapons':[{'name' : 'fists', 'dmgbuff': 2},{'name': 'Whalen Blade', 'dmgbuff':3000000}]

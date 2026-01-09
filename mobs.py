@@ -30,3 +30,5 @@ class whr(Mob):
 class wgc(Mob):
     def __init__(self, level, target, dungeon):
         super().__init__(level=level, name="Whalen Nuclear Cochroach", bhp= 3, batk=1.5, bdef=11, exp=6, target=target, dungeon=dungeon)
+
+list_mobs = [wxa, wgs, wpg, whr, wgc]

@@ -60,3 +60,5 @@ class Mecha_Whalen(Boss):
         self.target.hp-=25
         self.bhp*1.2
     
+
+list_boss = [Whalen, XIyang, Mecha_Whalen]

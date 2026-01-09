@@ -1,9 +1,11 @@
 import random
 from hero import *
+from mobs import *
+from boss import *
 class dungeon:
     def __init__(self):
-        self.moblist = []
-        self.bosslist = []
+        self.moblist = list_mobs
+        self.bosslist = list_boss
         self.enemies = []
         self.hero = None
         self.enemy_limit = 1
