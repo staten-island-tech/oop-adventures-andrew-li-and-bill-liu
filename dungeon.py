@@ -42,12 +42,10 @@ class dungeon:
     
     def Hero_turn(self):
         self.hero.turns += 1
-        self.hero.status_effects_tick()
         if self.hero.turns > 0:
             self.hero.action()
     def Enemy_turn(self):
         for i in self.enemies:
-            i.status_effects_tick()
             i.attack()
     
     def run(self):
@@ -61,4 +59,4 @@ class dungeon:
 
 
 dun = dungeon()
-dun.run
+dun.run()

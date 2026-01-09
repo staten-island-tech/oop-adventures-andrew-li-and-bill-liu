@@ -13,8 +13,10 @@ class Hero(character):
             'weapons':[{'name' : 'fists', 'dmgbuff': 2},{'name': 'Whalen Blade', 'dmgbuff':3000000}]
         }
         self.equipped = None
-        self.brace = False
-        self.equip(0)
+        self.braced = False
+        self.exp = 0
+        self.expbound = 5
+        self.equip(1)
     def take_damage(self, x):
         if self.braced == True:
             tanked = super().take_damage(x)
@@ -58,8 +60,11 @@ class Hero(character):
         while attacked == False:
             who = input('Who do you attack? :')
             try:
-                target = self.dungeon.enemies[who]
-                selected = True
+                if who == 'x':
+                    self.attacked = True
+                else:
+                    target = self.dungeon.enemies[who]
+                    selected = True
             except:
                 print('Invalid enemy selected.')
             if selected == True:
@@ -67,13 +72,14 @@ class Hero(character):
                 dmg_done = target.take_damage(dmg)
                 print(f"You have a attacked {target.name}, dealing {dmg_done} damage, their hp is now {target.hp}/{target.mxhp}")
                 attacked = True
+                self.turns -= 1
     def brace(self):
         if self.braced == False:
             self.braced = True
-            self.turns -= 2
             self.defense *= 10
+            self.turns -= 2
             print("You are bracing for incoming attacks, your defense has increased significantly for this next strike.")
-        if self.braced == True:
+        elif self.braced == True:
             print("You are already bracing!")
     def inventory(self):
         item_selected = False
@@ -84,12 +90,13 @@ class Hero(character):
             try:
                 self.equip(chosen)
                 item_selected = True
+                self.turns -= 1
             except:
                 print('Invalid Option')
         
     def action(self):
          while self.turns > 0 and self.alive == True:
-            act = input("|1.) attack| |2.) brace| |3.) inv| |4.) stats| |5.) status| |6.) Wait| :")
+            act = input("|1.) attack| |2.) brace| |3.) inv| |4.) stats| |5.) wait| :")
             if act == "1":
                 self.attack()
             if act == '2':
