@@ -36,9 +36,9 @@ class Hero(character):
         self.equipped = item['name']
         self.stat_update()    
     def stat_update(self):
-        self.mxhp = self.scale(self.bhp, 1.25) * self.mxhp_buff
-        self.atk = self.scale(self.batk + self.weapon_buff, 1.05) + self.atk_buff
-        self.defense = self.scale(self.bdef, 1.05) + self.def_buff
+        self.mxhp = self.scale(self.bhp, 1.25) * self.mxhpbuff
+        self.atk = self.scale(self.batk + self.weaponbuff, 1.05) + self.batkbuff
+        self.defense = self.scale(self.bdef, 1.05) + self.bdefbuff
     def level_up(self):
         while self.exp >= self.expbound:
             self.exp -= self.expbound
