@@ -21,14 +21,20 @@ class wxa(Mob):
 class wgs(Mob):
     def __init__(self, level, target, dungeon):
         super().__init__(level=level, name="Whalen Goo Skelly", bhp= 3, batk=11, bdef=0, exp=5, target=target, dungeon=dungeon)
-class wpg(Mob):
+class wmg(Mob):
     def __init__(self, level, target, dungeon):
-        super().__init__(level=level, name="Whalen Poison Giant", bhp= 11, batk=11, bdef=11, exp=11, target=target, dungeon=dungeon)
+        super().__init__(level=level, name="Whalen Massive Giant", bhp= 11, batk=11, bdef=11, exp=11, target=target, dungeon=dungeon)
 class whr(Mob):
     def __init__(self, level, target, dungeon):
         super().__init__(level=level, name="Whalen Hairless Rat", bhp= 2, batk=1, bdef=2, exp=2, target=target, dungeon=dungeon)
 class wgc(Mob):
     def __init__(self, level, target, dungeon):
         super().__init__(level=level, name="Whalen Nuclear Cochroach", bhp= 3, batk=1.5, bdef=11, exp=6, target=target, dungeon=dungeon)
+class wdc(Mob):
+    def __init__(self, level, target, dungeon):
+        super().__init__(level=level, name="Whalen Dumb Clanker", bhp= 1, batk=1, bdef=1, exp=1, target=target, dungeon=dungeon)
+class xfp(Mob):
+    def __init__(self, level, target, dungeon):
+        super().__init__(level=level, name="Xiyang Files Person", bhp= 3, batk=4.67, bdef=3, exp=5, target=target, dungeon=dungeon)
 
-list_mobs = [wxa, wgs, wpg, whr, wgc]
+list_mobs = [wxa, wgs, wmg, whr, wgc, wdc, xfp]
