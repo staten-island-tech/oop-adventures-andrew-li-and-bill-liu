@@ -1,4 +1,5 @@
 import random
+from hero import *
 class dungeon:
     def __init__(self):
         self.moblist = []
@@ -54,3 +55,8 @@ class dungeon:
             self.Enemy_turn()
             if len(self.enemies) == 0:
                 self.progress()
+
+
+
+dun = dungeon()
+dun.run
