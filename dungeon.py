@@ -49,8 +49,8 @@ class Dungeon:
             self.normal_room()
     def progress(self):
         self.dungeon_depth += self.descent_rate
-        if self.dungeon_depth > self.limit:
-            self.dungeon_depth = self.limit
+        if self.dungeon_depth > self.dungeon_peak:
+            self.dungeon_depth = self.dungeon_peak
         self.newroom()
     
     def Hero_turn(self):
@@ -74,7 +74,7 @@ class Dungeon:
 
             if len(self.enemies) == 0:
                 self.roomcleared = True
-                if self.dungeon_depth == self.limit and self.roomcleared == True:
+                if self.dungeon_depth == self.dungeon_peak and self.roomcleared == True:
                     self.dungeon_cleared = True
                     print("Dungeon cleared!")
                     return

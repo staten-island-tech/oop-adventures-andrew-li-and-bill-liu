@@ -1,3 +1,4 @@
+import random
 def cut(x):
     return round(x, 2)
 def ask(list, prompt = 'type index :'):
@@ -15,8 +16,16 @@ def ask(list, prompt = 'type index :'):
         return None
 def find_item(list, item):
     if isinstance(item, int):
-        return list[item] if 0 <= item < len(list) else None
+        if 0 <= item < len(list):
+            return list[item]
+        else:
+            return None
     for i in list:
-        if i['name'].lower() == item.lower():
+        if i['name'].lower() == item['name'].lower():
             return i
     return None
+def proc_chance(x):
+    if random.randint(1,100) <= x:
+        return True
+    else:
+        return False

@@ -5,9 +5,13 @@ class Hero(character):
     def __init__(self, name):
         self.weaponbuff = 0
         self.batkbuff = 0
+        self.bhpbuff = 0
         self.mxhpbuff = 0
         self.bdefbuff = 0
-        super().__init__(level = 1, name = name, batk = (10 + self.weaponbuff) * (1 + self.batkbuff), bdef = 10 * (1+ self.bdefbuff), bhp = 40)
+        self.tbatk = 10
+        self.tbdef = 1000000
+        self.tbhp = 40
+        super().__init__(level = 1, name = name, batk = (self.tbatk + self.weaponbuff) * (1 + self.batkbuff), bdef = self.tbdef * (1+self.bdefbuff), bhp = self.tbhp * (1+self.bhpbuff))
         self.turns = 0
         self.inventory = {
             'weapons':[{'name' : 'fists', 'dmgbuff': 2},{'name': 'Whalen Blade', 'dmgbuff':3000000}]
@@ -39,9 +43,11 @@ class Hero(character):
         print(f"You have equipped {self.equipped}.")
 
     def stat_update(self):
-        self.mxhp = self.scale(self.bhp, 1.25) * (1+ self.mxhpbuff)
-        self.atk = self.scale(self.batk + self.weaponbuff, 1.05) *  (1+ self.batkbuff)
-        self.defe = self.scale(self.bdef, 1.05) * (1+ self.bdefbuff)
+        self.batk = (self.tbatk + self.weaponbuff) * (1 + self.batkbuff)
+        self.bdef = self.tbdef * (1+self.bdefbuff)
+        self.bhp = self.tbhp * (1+self.bhpbuff)
+        super().stat_update()
+
     def level_up(self):
         while self.exp >= self.expbound:
             self.exp -= self.expbound
