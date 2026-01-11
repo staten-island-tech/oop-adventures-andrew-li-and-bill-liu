@@ -2,42 +2,55 @@ import random
 from hero import *
 from mobs import *
 from boss import *
-class dungeon:
-    def __init__(self):
-        self.moblist = list_mobs
-        self.bosslist = list_boss
+class Dungeon:
+    def __init__(self, name, moblist, bosslist, hero = None):
+        self.name = name
+        self.moblist = moblist
+        self.bosslist = bosslist
         self.enemies = []
-        self.hero = None
+        self.hero = hero
         self.enemy_limit = 1
-        self.dungeon_depth = 1
+        self.enemy_limit_max = 5
+        self.dungeon_depth = 10
+        self.descent_rate = 5
+        self.dungeon_peak = len(self.bosslist) * 10
+        self.dungeon_cleared = False
+        self.room_cleared = False
         self.hero_setup()
     def hero_setup(self):
-        name = input("Enter your hero's name: ")
-        self.hero = Hero(name)
+        if self.hero == None:
+            name = input("Enter your hero's name: ")
+            self.hero = Hero(name)
         self.hero.dungeon = self
-        print(f"Welcome, {self.hero.name}, to the dungeon!")
+        print(f"Welcome, {self.hero.name}, to the {self.name}!")
     def spawn(self,x,y):
         t = x(level = y, target = self.hero, dungeon = self)
         self.enemies.append(t)
         print(t.stats())
     def normal_room(self):
-        for i in range(1,self.enemy_limit + 1):
-            self.spawn(random.choice(self.moblist), self.dungeon_depth)
+        level_to_use = max(self.dungeon_depth, self.hero.level)
+        for i in range(self.enemy_limit):
+            self.spawn(random.choice(self.moblist), level_to_use)
     def boss_room(self):
-        boss_of_choice = random.choice(self.bosslist)
-        self.spawn(boss_of_choice, self.dungeon_depth + 5)
-        if self.enemy_limit < 5:
+        level_to_use = max(self.dungeon_depth, self.hero.level)
+        boss_number = (self.dungeon_depth // 10) - 1
+        boss_index = boss_number % len(self.bosslist)
+        self.spawn(self.bosslist[boss_index],level_to_use + 5)
+        if self.enemy_limit < self.enemy_limit_max:
             self.enemy_limit += 1
 
 
     def newroom(self):
+        self.enemies = []
         print(f'floor {self.dungeon_depth}')
         if self.dungeon_depth % 10 == 0:
             self.boss_room()
         else:
             self.normal_room()
     def progress(self):
-        self.dungeon_depth += 5
+        self.dungeon_depth += self.descent_rate
+        if self.dungeon_depth > self.limit:
+            self.dungeon_depth = self.limit
         self.newroom()
     
     def Hero_turn(self):
@@ -50,13 +63,25 @@ class dungeon:
     
     def run(self):
         self.newroom()
-        while len(self.enemies) != 0:
+
+        while self.dungeon_cleared != True:
+            if self.hero.hp <= 0:
+                print(f"{self.hero.name} has been defeated!")
+                break
+
             self.Hero_turn()
             self.Enemy_turn()
+
             if len(self.enemies) == 0:
+                self.roomcleared = True
+                if self.dungeon_depth == self.limit and self.roomcleared == True:
+                    self.dungeon_cleared = True
+                    print("Dungeon cleared!")
+                    return
                 self.progress()
 
+class Whalen_Citadel(Dungeon):
+    def __init__(self, hero):
+        super().__init__(name="Whalen Citadel", moblist=[wxa, wgs, wmg, whr, wgc, wdc, xfp], bosslist=[Whalen, XIyang, Mecha_Whalen],hero=hero)
 
-
-dun = dungeon()
-dun.run()
+duns = [Whalen_Citadel]

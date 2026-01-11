@@ -7,7 +7,7 @@ class Hero(character):
         self.batkbuff = 0
         self.mxhpbuff = 0
         self.bdefbuff = 0
-        super().__init__(level = 1, name = name, batk = (10 + self.weaponbuff) * self.batkbuff, bdef = 10 * self.bdefbuff, bhp = 40)
+        super().__init__(level = 1, name = name, batk = (10 + self.weaponbuff) * (1 + self.batkbuff), bdef = 10 * (1+ self.bdefbuff), bhp = 40)
         self.turns = 0
         self.inventory = {
             'weapons':[{'name' : 'fists', 'dmgbuff': 2},{'name': 'Whalen Blade', 'dmgbuff':3000000}]
@@ -21,26 +21,27 @@ class Hero(character):
         if self.braced == True:
             tanked = super().take_damage(x)
             self.braced = False
-            self.defense = cut(self.bdef / 10)
-            self.stat_update
+            self.bdefbuff = 0
+            self.stat_update()
             print("Your brace have stopped bracing, your defense has returned to normal.")
             return tanked
         else:
             return super().take_damage(x)
     
     def equip(self, x):
-        try:
-            item = self.inventory['weapons'][x]
-        except:
-            print("invalid weapon format")
+        item = find_item(self.inventory['weapons'], x)
+        if item == None:
+            print("Invalid weapon choice.")
             return
         self.weaponbuff = item['dmgbuff']
         self.equipped = item['name']
-        self.stat_update()    
+        self.stat_update()
+        print(f"You have equipped {self.equipped}.")
+
     def stat_update(self):
-        self.mxhp = self.scale(self.bhp, 1.25) * self.mxhpbuff
-        self.atk = self.scale(self.batk + self.weaponbuff, 1.05) + self.batkbuff
-        self.defense = self.scale(self.bdef, 1.05) + self.bdefbuff
+        self.mxhp = self.scale(self.bhp, 1.25) * (1+ self.mxhpbuff)
+        self.atk = self.scale(self.batk + self.weaponbuff, 1.05) *  (1+ self.batkbuff)
+        self.defe = self.scale(self.bdef, 1.05) * (1+ self.bdefbuff)
     def level_up(self):
         while self.exp >= self.expbound:
             self.exp -= self.expbound
@@ -53,47 +54,41 @@ class Hero(character):
         self.exp += exp
         self.level_up()
     def attack(self):
-        selected = False
         attacked = False
-        for i, enemy in enumerate(self.dungeon.enemies):
-            print(f"{i}: {enemy.name} {enemy.hp}hp/{enemy.mxhp}hp {enemy.atk}atk {enemy.defe}def")
-        while attacked == False:
-            who = input('Who do you attack? :')
+        while attacked != True:
+            for i, enemy in enumerate(self.dungeon.enemies):
+                print(f"{i}: {enemy.name} {enemy.hp}/{enemy.mxhp} HP | {enemy.atk} ATK | {enemy.defe} DEF")
+            who = input("Who do you attack? (number or 'x' to cancel): ")
+            if who.lower() == 'x':
+                return
             try:
-                if who == 'x':
-                    self.attacked = True
+                idx = int(who)
+                if 0 <= idx < len(self.dungeon.enemies):
+                    target = self.dungeon.enemies[idx]
+                    dmg = cut(self.atk)
+                    dmg_done = target.take_damage(dmg)
+                    print(f"You attacked {target.name}, dealing {dmg_done} damage. HP now: {target.hp}/{target.mxhp}")
+                    self.turns -= 1
+                    attacked = True
                 else:
-                    target = self.dungeon.enemies[who]
-                    selected = True
+                    print("Invalid index.")
             except:
-                print('Invalid enemy selected.')
-            if selected == True:
-                dmg = cut(self.atk) 
-                dmg_done = target.take_damage(dmg)
-                print(f"You have a attacked {target.name}, dealing {dmg_done} damage, their hp is now {target.hp}/{target.mxhp}")
-                attacked = True
-                self.turns -= 1
+                print("Index pls")
+
     def brace(self):
         if self.braced == False:
             self.braced = True
-            self.defense *= 10
+            self.bdefbuff = 10
+            self.stat_update()
             self.turns -= 2
             print("You are bracing for incoming attacks, your defense has increased significantly for this next strike.")
         elif self.braced == True:
             print("You are already bracing!")
-    def inventory(self):
-        item_selected = False
-        for i, weapon in (self.inv['weapons']):
-            print(f"{i}: {weapon['name']} {weapon['dmgbuff']} dmg")
-        while item_selected == False:
-            chosen = input('Choose a weapon')
-            try:
-                self.equip(chosen)
-                item_selected = True
-                self.turns -= 1
-            except:
-                print('Invalid Option')
-        
+    def inv(self):
+        item = ask(self.inventory['weapons'], "Choose a weapon (or 'x' to cancel): ")
+        if item:
+            self.equip(item)
+            self.turns -= 1      
     def action(self):
          while self.turns > 0 and self.alive == True:
             act = input("|1.) attack| |2.) brace| |3.) inv| |4.) stats| |5.) wait| :")
@@ -102,7 +97,7 @@ class Hero(character):
             if act == '2':
                 self.brace()
             if act == '3':
-                self.inventory()
+                self.inv()
             if act == '4':
                 print(f"{self.stats()}, Equipped: {self.equipped}, EXP: {self.exp}/{self.expbound}, Turns left: {self.turns}")
             if act == '5':
