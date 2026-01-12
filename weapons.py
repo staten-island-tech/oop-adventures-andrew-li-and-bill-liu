@@ -19,8 +19,20 @@ lista_weapons = [
     },
     {
         'id':4,
-        'name':'tester pro max',
+        'name':'Whalen Dagger',
         'dmgbuff':900,
+        'scales':False
+    },
+    {
+        'id':5,
+        'name':'Whalen Pro Max',
+        'dmgbuff':1000,
+        'scales':False
+    },
+    {
+        'id':6,
+        'name':'Mecha Whalen Core',
+        'dmgbuff':1200,
         'scales':False
     }
 ]

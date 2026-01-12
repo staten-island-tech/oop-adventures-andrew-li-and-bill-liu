@@ -56,7 +56,7 @@ class Boss(Mob):
 
 class Whalen(Boss):
     def __init__(self, level, target, dungeon):
-        super().__init__(level, name="Whalen", bhp=500, batk=50, bdef=50, exp=100, dungeon=dungeon, target=target, attacks=[{'move':'Little Boy', 'charge':5, 'scale':4, 'special':[self.radiation]},{'move':'Big Man', 'charge':8, 'scale':5, 'special':[self.radiation]}], charge_rate=1, drops = None)
+        super().__init__(level, name="Whalen", bhp=500, batk=50, bdef=50, exp=100, dungeon=dungeon, target=target, attacks=[{'move':'Little Boy', 'charge':5, 'scale':4, 'special':[self.radiation]},{'move':'Big Man', 'charge':8, 'scale':5, 'special':[self.radiation]}], charge_rate=1, drops = [{'name':'Whalen Pro Max', 'id':5, 'chance':100'}]
     def radiation(self):
         dmg=int((self.atk * self.selected_move_scale)/2)
         self.target.take_damage(dmg)

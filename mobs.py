@@ -26,9 +26,6 @@ class Mob(character):
             for object in self.drops:
                 item = find_item(self.weapons_list, object, id = True)
                 if proc_chance(object['chance']) == True:
-                    if item is None:
-                        continue 
-                        
                     self.target.obtain_weapon(self.weapon_setter(item))
 
         
@@ -58,7 +55,7 @@ class wgc(Mob):
         super().__init__(level=level, name="Whalen Nuclear Cochroach", bhp= 3, batk=1.5, bdef=11, exp=6, target=target, dungeon=dungeon, drops = None)
 class wdc(Mob):
     def __init__(self, level, target, dungeon):
-        super().__init__(level=level, name="Whalen Dumb Clanker", bhp= 1, batk=1, bdef=1, exp=1, target=target, dungeon=dungeon, drops = None)
+        super().__init__(level=level, name="Whalen Doom Crab", bhp= 1, batk=1, bdef=1, exp=1, target=target, dungeon=dungeon, drops = None)
 class xfp(Mob):
     def __init__(self, level, target, dungeon):
         super().__init__(level=level, name="Xiyang Files Person", bhp= 3, batk=4.67, bdef=3, exp=5, target=target, dungeon=dungeon, drops = None)
