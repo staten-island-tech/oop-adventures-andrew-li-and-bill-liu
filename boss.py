@@ -56,12 +56,12 @@ class Boss(Mob):
     def minion_spawn(self, minion_class, number = 1):
         if len(self.dungeon.enemies) + number <= self.dungeon.enemy_limit:
             for i in range(number):
-                self.dungeon.spawn(minion_class, self.level)
+                self.dungeon.spawn(random.choice(minion_class), self.level)
                 print(f"{self.name} has spawned a minion!")
         if len(self.dungeon.enemies) + number > self.dungeon.enemy_limit and len(self.dungeon.enemies) < self.dungeon.enemy_limit:
             available_slots = self.dungeon.enemy_limit - len(self.dungeon.enemies)
             for i in range(available_slots):
-                self.dungeon.spawn(minion_class, self.level)
+                self.dungeon.spawn(random.choice(minion_class), self.level)
                 print(f"{self.name} has spawned a minion!")
 
 class Whalen(Boss):
@@ -69,16 +69,9 @@ class Whalen(Boss):
         super().__init__(level, name="Whalen", bhp=500, batk=50, bdef=50, exp=100, dungeon=dungeon, target=target, attacks=[{'move':'Little Boy', 'charge':5, 'scale':4, 'special':[self.radiation]},{'move':'Big Man', 'charge':8, 'scale':5, 'special':[self.radiation]}], charge_rate=1, drops = [{'name':'Whalen Pro Max', 'id': 5, 'chance':100}])
     def radiation(self):
         dmg=int((self.atk * self.selected_move_scale)/2)
-        self.target.take_damage(dmg)
+        x = self.target.take_damage(dmg)
+        print(f"{self.name} has hit {self.target.name} with radiation, dealing {x} dmg, {self.target.hp}/{self.target.mxhp}hp ")
         self.enrage()
-class XIyang(Boss):
-    def __init__(self, level, target, dungeon):
-        super().__init__(level=level, name="Xiyang", bhp=600, batk=70, bdef=10, exp=125, dungeon=dungeon, target=target, attacks=[{'move':'melt', 'charge':5, 'scale':4, 'special':None}, {'move':'fire', 'charge':3, 'scale':2, 'special':[self.burn]}], charge_rate=1, drops = None)
-    def burn(self):
-        dmg=int((self.atk * self.selected_move_scale)/2)
-        self.target.take_damage(dmg)
-        self.target.bdefbuff -= (self.target.bdefbuff *0.5)
-        self.target.stat_update()
 class Mecha_Whalen(Boss):
     def __init__(self, level, target, dungeon):
         super().__init__(level=level, name="Mecha Whalen", bhp=1000, batk=2, bdef=100, exp=200, dungeon=dungeon, target=target, attacks=[{'move':'Whalen Onslaught', 'charge':1, 'scale': 0.5, 'special':[self.enrage]}], charge_rate=3, drops = [{'name':'Mecha WHalen COre', 'id':6, 'chance':100}])
@@ -88,3 +81,19 @@ class Mecha_Whalen(Boss):
             self.charge_rate += 3
     
 
+class XIyang(Boss):
+    def __init__(self, level, target, dungeon):
+        super().__init__(level=level, name="Xiyang", bhp=600, batk=70, bdef=10, exp=125, dungeon=dungeon, target=target, attacks=[{'move':'melt', 'charge':5, 'scale':4, 'special':None}, {'move':'fire', 'charge':3, 'scale':2, 'special':[self.burn]}], charge_rate=1, drops = [{'name':"Xiyang's toenail", 'id': 8, 'chance':100}])
+    def burn(self):
+        dmg=int(self.target.hp * 0.1)
+        x =self.target.take_damage(dmg)
+        print(f"{self.name} has burned {self.target.name}, dealing {x} dmg, {self.target.hp}/{self.target.mxhp}hp ")
+        self.target.bdefbuff -= (self.target.bdefbuff *0.5)
+        self.target.stat_update()
+
+class Yang_Worm(Boss):
+    def __init__(self, level, target, dungeon):
+        super().__init__(level=level, name="Prime Xiyang Sandworm", bhp=60000, batk=1000, bdef=1000, exp=12500, dungeon=dungeon, target=target, attacks=[{'move':'dig', 'charge':5, 'scale':0, 'special':[self.worm_call]}], charge_rate=1, drops = [{'name':'Xiyang Scale', 'id':7, 'chance':20}])
+    def worm_call(self):
+        self.minion_spawn([xsw], number = random.randint(1,3))
+    

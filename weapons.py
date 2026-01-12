@@ -34,6 +34,18 @@ lista_weapons = [
         'name':'Mecha Whalen Core',
         'dmgbuff':1200,
         'scales':False
+    },
+    {
+        'id':7,
+        'name':'Xiyang Scale',
+        'dmgbuff':17000,
+        'scales':False
+    },
+    {
+        'id':8,
+        'name':"Xiyang's toenail",
+        'dmgbuff':900,
+        'scales': True
     }
 ]
 

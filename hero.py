@@ -9,8 +9,8 @@ class Hero(character):
         self.mxhpbuff = 0
         self.bdefbuff = 0
         self.tbatk = 10
-        self.tbdef = 1000000
-        self.tbhp = 40
+        self.tbdef = 100000000000
+        self.tbhp = 800000000000
         super().__init__(level = 1, name = name, batk = (self.tbatk + self.weaponbuff) * (1 + self.batkbuff), bdef = self.tbdef * (1+self.bdefbuff), bhp = self.tbhp * (1+self.bhpbuff))
         self.turns = 0
         self.inventory = {
@@ -24,6 +24,7 @@ class Hero(character):
         self.exp = 0
         self.exp_limit = 5
         self.expbound = self.scale(self.exp_limit, 1.05)
+        self.levelcap = 2000
         self.equip(1)
     
     def take_damage(self, x):
@@ -88,12 +89,17 @@ class Hero(character):
     
     def level_up(self):
         while self.exp >= self.expbound:
-            self.exp -= self.expbound
-            self.level += 1
-
-            self.stat_update()
-            self.hp = self.mxhp
-            print(f"{self.name} leveled up! Now level {self.level}!")
+            proceed = False
+            if self.level < self.levelcap:
+                proceed = True
+            if proceed == True:
+                self.exp -= self.expbound
+                self.level += 1
+                self.stat_update()
+                self.hp = self.mxhp
+                print(f"{self.name} leveled up! Now level {self.level}!")
+            else:
+                break
     def gain_exp(self,exp):
         self.exp += exp
         self.level_up()
