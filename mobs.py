@@ -71,3 +71,10 @@ class test_mob(Mob):
 class xsw(Mob):
     def __init__(self, level, target, dungeon):
         super().__init__(level=level, name="Xiyang Sandworm", bhp=1, batk=1, bdef=1, exp=1, dungeon=dungeon, target=target, drops=None)
+class xuh(Mob):
+    def __init__(self, level, target, dungeon):
+        super().__init__(level=level, name="Xiyang Undead Husk", bhp=7, batk=7, bdef=2, exp=5, dungeon=dungeon, target=target, drops=None)
+class xmv(Mob):
+    def __init__(self, level, target, dungeon):
+        super().__init__(level=level, name="Xiyang Measles Vulture", bhp=4, batk=5, bdef=1, exp=3, dungeon=dungeon, target=target, drops=None)
+
