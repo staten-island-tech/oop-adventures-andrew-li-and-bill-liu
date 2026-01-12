@@ -53,10 +53,20 @@ class Boss(Mob):
     def action_delay(self, delay = 1, proc = 50):
         if proc_chance(proc) == True:
             self.target.turns -= delay
+    def minion_spawn(self, minion_class, number = 1):
+        if len(self.dungeon.enemies) + number <= self.dungeon.enemy_limit:
+            for i in range(number):
+                self.dungeon.spawn(minion_class, self.level)
+                print(f"{self.name} has spawned a minion!")
+        if len(self.dungeon.enemies) + number > self.dungeon.enemy_limit and len(self.dungeon.enemies) < self.dungeon.enemy_limit:
+            available_slots = self.dungeon.enemy_limit - len(self.dungeon.enemies)
+            for i in range(available_slots):
+                self.dungeon.spawn(minion_class, self.level)
+                print(f"{self.name} has spawned a minion!")
 
 class Whalen(Boss):
     def __init__(self, level, target, dungeon):
-        super().__init__(level, name="Whalen", bhp=500, batk=50, bdef=50, exp=100, dungeon=dungeon, target=target, attacks=[{'move':'Little Boy', 'charge':5, 'scale':4, 'special':[self.radiation]},{'move':'Big Man', 'charge':8, 'scale':5, 'special':[self.radiation]}], charge_rate=1, drops = [{'name':'Whalen Pro Max', 'id':5, 'chance':100'}]
+        super().__init__(level, name="Whalen", bhp=500, batk=50, bdef=50, exp=100, dungeon=dungeon, target=target, attacks=[{'move':'Little Boy', 'charge':5, 'scale':4, 'special':[self.radiation]},{'move':'Big Man', 'charge':8, 'scale':5, 'special':[self.radiation]}], charge_rate=1, drops = [{'name':'Whalen Pro Max', 'id': 5, 'chance':100}])
     def radiation(self):
         dmg=int((self.atk * self.selected_move_scale)/2)
         self.target.take_damage(dmg)
@@ -71,7 +81,7 @@ class XIyang(Boss):
         self.target.stat_update()
 class Mecha_Whalen(Boss):
     def __init__(self, level, target, dungeon):
-        super().__init__(level=level, name="Mecha Whalen", bhp=1000, batk=2, bdef=100, exp=200, dungeon=dungeon, target=target, attacks=[{'move':'Whalen Onslaught', 'charge':1, 'scale': 0.5, 'special':[self.enrage]}], charge_rate=3, drops = None)
+        super().__init__(level=level, name="Mecha Whalen", bhp=1000, batk=2, bdef=100, exp=200, dungeon=dungeon, target=target, attacks=[{'move':'Whalen Onslaught', 'charge':1, 'scale': 0.5, 'special':[self.enrage]}], charge_rate=3, drops = [{'name':'Mecha WHalen COre', 'id':6, 'chance':100}])
     def enrage(self):
         super().enrage(rate = 2, proc = 90)
         if proc_chance(60) == True:
