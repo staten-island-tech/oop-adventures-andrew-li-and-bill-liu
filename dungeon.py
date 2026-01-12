@@ -73,8 +73,8 @@ class Dungeon:
             self.Enemy_turn()
 
             if len(self.enemies) == 0:
-                self.roomcleared = True
-                if self.dungeon_depth == self.dungeon_peak and self.roomcleared == True:
+                self.room_cleared = True
+                if self.dungeon_depth == self.dungeon_peak and self.room_cleared == True:
                     self.dungeon_cleared = True
                     print("Dungeon cleared!")
                     return
@@ -84,4 +84,10 @@ class Whalen_Citadel(Dungeon):
     def __init__(self, hero):
         super().__init__(name="Whalen Citadel", moblist=[wxa, wgs, wmg, whr, wgc, wdc, xfp], bosslist=[Whalen, XIyang, Mecha_Whalen],hero=hero)
 
-duns = [Whalen_Citadel]
+
+class test_realm(Dungeon):
+    def __init__(self, hero):
+        super().__init__(name="test realm", moblist=[test_mob], bosslist=[test_mob],hero=hero)
+
+
+duns = [Whalen_Citadel, test_realm]

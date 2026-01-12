@@ -1,9 +1,10 @@
 from mobs import *
 from utilities import *
+from weapons import *
 import random
 class Boss(Mob):
-    def __init__(self, level, name, bhp, batk, bdef, exp, dungeon, target, attacks, charge_rate):
-        super().__init__(level=level, name=name, bhp=bhp, batk=batk, bdef=bdef, exp=exp, dungeon=dungeon, target=target)
+    def __init__(self, level, name, bhp, batk, bdef, exp, dungeon, target, attacks, charge_rate, drops):
+        super().__init__(level=level, name=name, bhp=bhp, batk=batk, bdef=bdef, exp=exp, dungeon=dungeon, target=target, drops = drops)
         self.charge_rate=charge_rate
         self.attacks=attacks
         self.move_charge=0
@@ -55,14 +56,14 @@ class Boss(Mob):
 
 class Whalen(Boss):
     def __init__(self, level, target, dungeon):
-        super().__init__(level, name="Whalen", bhp=500, batk=50, bdef=50, exp=100, dungeon=dungeon, target=target, attacks=[{'move':'Little Boy', 'charge':5, 'scale':4, 'special':[self.radiation]},{'move':'Big Man', 'charge':8, 'scale':5, 'special':[self.radiation]}], charge_rate=1)
+        super().__init__(level, name="Whalen", bhp=500, batk=50, bdef=50, exp=100, dungeon=dungeon, target=target, attacks=[{'move':'Little Boy', 'charge':5, 'scale':4, 'special':[self.radiation]},{'move':'Big Man', 'charge':8, 'scale':5, 'special':[self.radiation]}], charge_rate=1, drops = None)
     def radiation(self):
         dmg=int((self.atk * self.selected_move_scale)/2)
         self.target.take_damage(dmg)
         self.enrage()
 class XIyang(Boss):
     def __init__(self, level, target, dungeon):
-        super().__init__(level=level, name="Xiyang", bhp=600, batk=70, bdef=10, exp=125, dungeon=dungeon, target=target, attacks=[{'move':'melt', 'charge':5, 'scale':4, 'special':None}, {'move':'fire', 'charge':3, 'scale':2, 'special':[self.burn]}], charge_rate=1)
+        super().__init__(level=level, name="Xiyang", bhp=600, batk=70, bdef=10, exp=125, dungeon=dungeon, target=target, attacks=[{'move':'melt', 'charge':5, 'scale':4, 'special':None}, {'move':'fire', 'charge':3, 'scale':2, 'special':[self.burn]}], charge_rate=1, drops = None)
     def burn(self):
         dmg=int((self.atk * self.selected_move_scale)/2)
         self.target.take_damage(dmg)
@@ -70,11 +71,10 @@ class XIyang(Boss):
         self.target.stat_update()
 class Mecha_Whalen(Boss):
     def __init__(self, level, target, dungeon):
-        super().__init__(level=level, name="Mecha Whalen", bhp=1000, batk=2, bdef=100, exp=200, dungeon=dungeon, target=target, attacks=[{'move':'Whalen Onslaught', 'charge':1, 'scale': 0.5, 'special':[self.enrage]}], charge_rate=3)
+        super().__init__(level=level, name="Mecha Whalen", bhp=1000, batk=2, bdef=100, exp=200, dungeon=dungeon, target=target, attacks=[{'move':'Whalen Onslaught', 'charge':1, 'scale': 0.5, 'special':[self.enrage]}], charge_rate=3, drops = None)
     def enrage(self):
         super().enrage(rate = 2, proc = 90)
         if proc_chance(60) == True:
             self.charge_rate += 3
     
 
-list_boss = [Whalen, XIyang, Mecha_Whalen]

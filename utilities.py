@@ -14,15 +14,19 @@ def ask(list, prompt = 'type index :'):
         return None
     except:
         return None
-def find_item(list, item):
+def find_item(list, item, id = False):
     if isinstance(item, int):
         if 0 <= item < len(list):
             return list[item]
         else:
             return None
     for i in list:
-        if i['name'].lower() == item['name'].lower():
-            return i
+        if id == True:
+            if i['name'].lower() == item['name'].lower() and i['id'] == item['id']:
+                return i
+        else:
+            if i['name'].lower() == item['name'].lower():
+                return i
     return None
 def proc_chance(x):
     if random.randint(1,100) <= x:
