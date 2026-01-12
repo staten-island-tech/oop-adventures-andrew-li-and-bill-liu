@@ -94,4 +94,4 @@ class Xiyang_Desert(Dungeon):
         super().__init__(name="Xiyang Desert", moblist=[xsw, xuh, xmv], bosslist=[XIyang], hero=hero)
 
 
-duns = [Whalen_Citadel, test_realm, Xiyang_Desert]
+duns = [Whalen_Citadel,Xiyang_Desert, test_realm]

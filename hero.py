@@ -24,6 +24,7 @@ class Hero(character):
         self.exp = 0
         self.exp_limit = 5
         self.expbound = self.scale(self.exp_limit, 1.05)
+        self.levelcap = 200
         self.equip(1)
     
     def take_damage(self, x):
