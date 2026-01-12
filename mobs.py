@@ -64,3 +64,7 @@ class xfp(Mob):
 class test_mob(Mob):
     def __init__(self, level, target, dungeon):
         super().__init__(level=level, name="test mob", bhp= 4, batk=3, bdef=2, exp=4, target=target, dungeon=dungeon, drops = [{'name':'test sword', 'id': 3, 'chance':100}])
+
+class xsw(Mob):
+    def __init__(self, level, target, dungeon):
+        super().__init__(level=level, name="Xiyang Sandworm", bhp=1, batk=1, bdef=1, exp=1, dungeon=dungeon, target=target, drops=None)

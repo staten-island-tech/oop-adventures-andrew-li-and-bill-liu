@@ -82,12 +82,16 @@ class Dungeon:
 
 class Whalen_Citadel(Dungeon):
     def __init__(self, hero):
-        super().__init__(name="Whalen Citadel", moblist=[wxa, wgs, wmg, whr, wgc, wdc, xfp], bosslist=[Whalen, XIyang, Mecha_Whalen],hero=hero)
+        super().__init__(name="Whalen Citadel", moblist=[wxa, wgs, wmg, whr, wgc, wdc, xfp], bosslist=[Whalen, Mecha_Whalen],hero=hero)
 
 
 class test_realm(Dungeon):
     def __init__(self, hero):
         super().__init__(name="test realm", moblist=[test_mob], bosslist=[test_mob],hero=hero)
+
+class Xiyang_Desert(Dungeon):
+    def __init__(self, hero):
+        super().__init__(name="Xiyang Desert", moblist=[], bosslist=[XIyang], hero=hero)
 
 
 duns = [Whalen_Citadel, test_realm]
