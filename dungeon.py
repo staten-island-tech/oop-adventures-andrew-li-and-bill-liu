@@ -91,7 +91,7 @@ class test_realm(Dungeon):
 
 class Xiyang_Desert(Dungeon):
     def __init__(self, hero):
-        super().__init__(name="Xiyang Desert", moblist=[], bosslist=[XIyang], hero=hero)
+        super().__init__(name="Xiyang Desert", moblist=[xsw, xuh, xmv], bosslist=[XIyang], hero=hero)
 
 
-duns = [Whalen_Citadel, test_realm]
+duns = [Whalen_Citadel, test_realm, Xiyang_Desert]
