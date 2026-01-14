@@ -28,6 +28,3 @@ class game_runner:
             if again != 'y':
                 print("Thanks for playing!")
                 break
-
-runner = game_runner()
-runner.run_system()
